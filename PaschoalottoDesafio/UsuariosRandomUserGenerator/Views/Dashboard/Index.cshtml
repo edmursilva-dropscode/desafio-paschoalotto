@@ -1,0 +1,45 @@
+﻿@{
+    // Define o título da página para uso em <title> e outras partes do layout
+    ViewData["Title"] = "Dashboard";
+}
+
+@*Container principal para o conteúdo, com titulos, totalização*@
+<div class="container">
+    <h1 class="mt-4">Dashboard</h1>
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total de Usuários</h5>
+                    <p class="card-text display-4" id="totalUsuarios">0</p> 
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Novos Usuários (Últimos 7 dias)</h5>
+                    <p class="card-text display-4">0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Secton para chamar método de totalozação*@
+@section Scripts {    
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: '@Url.Action("TotalUsuarios", "Usuarios")',       
+                type: 'GET',
+                success: function(data) {
+                    $('#totalUsuarios').text(data.total);               
+                },
+                error: function() {
+                    $('#totalUsuarios').text('Erro ao carregar total'); 
+                }
+            });
+        });
+    </script>
+}

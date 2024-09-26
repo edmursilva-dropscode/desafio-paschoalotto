@@ -1,0 +1,121 @@
+﻿@model IEnumerable<UsuariosRandomUserGenerator.Models.UsuarioModel>
+@{
+    ViewData["Title"] = "Usuários";
+}
+
+<div class="container">
+    <h1 class="mt-4">Usuários</h1>
+    <div class="row mt-4">
+        <div class="row mt-4">
+            <div class="col-12 text-end">
+                <!-- Botão para chamar a API de geração de usuários aleatórios -->
+                <button class="btn btn-warning mb-2 mb-sm-0 me-sm-2" id="btnRandomUsers">API Random Users Generator</button>
+                <!-- Botão para gerar relatório -->
+                <button class="btn btn-danger mb-2 mb-sm-0 me-sm-2" id="btnRelatorio">Relatório</button>
+                <!-- Botão para adicionar um novo usuário -->
+                <button class="btn btn-success" id="btnNovo">Novo</button>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <!-- Cabeçalhos da tabela, com alguns ocultos em telas pequenas e médias -->
+                <th>Nome</th>
+                <th>Sobrenome</th>                
+                <th class="d-none d-md-table-cell">Email</th>      <!-- Oculta em telas pequenas -->                
+                <th class="d-none d-lg-table-cell">Telefone</th>   <!-- Oculta em telas pequenas e médias -->                
+                <th class="d-none d-lg-table-cell">Gênero</th>     <!-- Oculta em telas pequenas e médias -->
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody id="userTableBody">
+            @foreach (var usuario in Model)
+            {
+                <tr>
+                    <!-- Exibição dos dados dos usuários -->
+                    <td>@usuario.Nome</td>
+                    <td>@usuario.Sobrenome</td>
+                    <td class="d-none d-md-table-cell">@usuario.Email</td>      <!-- Oculta em telas pequenas e médias -->
+                    <td class="d-none d-lg-table-cell">@usuario.Telefone</td>   <!-- Oculta em telas pequenas e médias -->
+                    <td class="d-none d-lg-table-cell">@usuario.Genero</td>     <!-- Oculta em telas pequenas e médias -->
+                    <td>
+                        <button class="btn btn-primary edit-btn" data-id="@usuario.IdUsuario">Editar</button>
+                        <button class="btn btn-danger delete-btn" data-id="@usuario.IdUsuario">Excluir</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Navegação de páginas para a tabela de usuários -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="@(ViewBag.CurrentPage - 1)">Anterior</a>
+            </li>
+
+            <!-- Laço para gerar os números das páginas -->
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-pageNumber="@i">@i</a>
+                </li>
+            }
+
+            <!-- Modal para adicionar ou editar um usuário -->
+            <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="@(ViewBag.CurrentPage + 1)">Próxima</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<!-- Modal para adicionar/editar usuário -->
+<div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- Título do modal (Adicionar ou Editar) -->
+                <h5 id="userModalLabel" class="modal-title">Adicionar Usuário</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulário para adicionar/editar usuários -->
+                <form id="usuarioForm" action="@Url.Action("Salvar", "Usuarios")" method="post">
+                    <input type="hidden" id="IdUsuario" name="IdUsuario" />
+                    <div class="mb-3">
+                        <label for="Nome" class="form-label">Nome</label>
+                        <input type="text" class="form-control" id="Nome" name="Nome" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="Sobrenome" class="form-label">Sobrenome</label>
+                        <input type="text" class="form-control" id="Sobrenome" name="Sobrenome" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="Email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="Email" name="Email" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="Telefone" class="form-label">Telefone</label>
+                        <input type="text" class="form-control" id="Telefone" name="Telefone" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="Genero" class="form-label">Gênero</label>
+                        <select class="form-select" id="Genero" name="Genero" required>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Feminino">Feminino</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Senha" class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="Senha" name="Senha" required />
+                    </div>
+                    <button type="submit" class="btn btn-success">Salvar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
