@@ -6,7 +6,7 @@ O desafio técnico visa avaliar as habilidades do candidato em C#, JavaScript, P
 
 ## Ferramenta utilizada
 . IDE - Visual Studio 2022,
-. C#, VB6, ASP.Net, JavaScript, Angular com metodologia MVC com CRUD
+. C#, ASP.Net, JavaScript, Bootsprat com metodologia MVC com CRUD
 
 ## Executar o desafio 
 . No arquivo appsettings.json, mudar o acesso ao bando de dados
