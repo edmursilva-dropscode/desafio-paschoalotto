@@ -11,6 +11,7 @@ O desafio técnico visa avaliar as habilidades do candidato em C#, JavaScript, P
 ## Executar o desafio 
 . No arquivo appsettings.json, mudar o acesso ao bando de dados
   ---> "DefaultConnection": "Host=localhost;Port=5432;Pooling=true;Database=PaschoalottoDesafio;User Id=postgres;Password=admin;"
+  
 . Depois de mudar o acesso ao banco de dados, execute controle Migrations para criar o banco de dados e a tabela Usuario
 
 ## Solution PaschoalottoDesafio
